@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="Arquivo de códigos-fonte do projeto Priston Tale.">
+  <title>Priston Code Archive</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101114;
+      --panel: #181a20;
+      --panel2: #20232b;
+      --border: #30333d;
+      --text: #f1f2f6;
+      --muted: #9ca3b4;
+      --accent: #a78bfa;
+      --green: #66d9a6;
+      --red: #ff7777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      padding: 18px 16px;
+      background: #15161b;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #2a2142;
+      color: var(--accent);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(19px, 4vw, 25px);
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      width: min(100% - 28px, 1000px);
+      margin: 25px auto 50px;
+    }
+
+    .intro {
+      margin-bottom: 22px;
+    }
+
+    .intro h2 {
+      margin: 0 0 6px;
+      font-size: 23px;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .panel h3 {
+      margin: 0 0 16px;
+      font-size: 17px;
+    }
+
+    label {
+      display: block;
+      margin: 13px 0 7px;
+      color: #d7d9e2;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      color: var(--text);
+      background: #111217;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      min-height: 230px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      tab-size: 2;
+    }
+
+    .btn {
+      min-height: 43px;
+      padding: 10px 14px;
+      color: var(--text);
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .btn-primary {
+      color: #171020;
+      background: var(--accent);
+      border-color: var(--accent);
+      font-weight: 750;
+    }
+
+    .btn-danger {
+      color: var(--red);
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+
+    .full {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .search {
+      margin-bottom: 13px;
+    }
+
+    .code-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .code-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      text-align: left;
+      color: var(--text);
+      background: #13151a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .code-item.active {
+      border-color: var(--accent);
+      background: #211b30;
+    }
+
+    .file-icon {
+      font-size: 22px;
+    }
+
+    .file-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .file-name {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .file-meta {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty {
+      padding: 22px 8px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .viewer {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .viewer-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .viewer-title {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .viewer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      min-height: 160px;
+      max-height: 600px;
+      overflow: auto;
+      background: #0d0e12;
+      color: #dce1ef;
+      font: 13px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+      tab-size: 2;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    .status {
+      min-height: 20px;
+      margin-top: 10px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .footer {
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 720px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 15px;
+      }
+
+      .viewer-head {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo" aria-hidden="true">P</div>
+      <div>
+        <h1>Priston Code Archive</h1>
+        <p class="subtitle">Arquivo de códigos-fonte do projeto Priston Tale</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Biblioteca de códigos</h2>
+      <p>Guarde, organize, consulte e copie os arquivos do projeto.</p>
+    </section>
+
+    <div class="layout">
+      <section>
+        <div class="panel">
+          <h3>＋ Adicionar código</h3>
+
+          <form id="codeForm">
+            <label for="fileName">Nome do arquivo</label>
+            <input
+              id="fileName"
+              type="text"
+              placeholder="Ex.: smTexture.cpp"
+              maxlength="150"
+              required
+            >
+
+            <label for="fileCategory">Categoria</label>
+            <select id="fileCategory">
+              <option value="Cliente">Cliente</option>
+              <option value="Gráficos">Gráficos</option>
+              <option value="Monstros">Monstros</option>
+              <option value="Mapas">Mapas</option>
+              <option value="Servidor">Servidor</option>
+              <option value="Outros">Outros</option>
+            </select>
+
+            <label for="fileCode">Código-fonte</label>
+            <textarea
+              id="fileCode"
+              placeholder="Cole o código completo aqui..."
+              spellcheck="false"
+              required
+            ></textarea>
+
+            <button class="btn btn-primary full" type="submit">
+              Salvar código
+            </button>
+          </form>
+
+          <p class="note">
+            Esta versão salva os dados somente neste navegador. O banco de
+            dados compartilhado será configurado na próxima etapa.
+          </p>
+
+          <div id="formStatus" class="status" role="status"></div>
+        </div>
+
+        <div class="panel">
+          <h3>📂 Arquivos salvos</h3>
+
+          <input
+            id="search"
+            class="search"
+            type="search"
+            placeholder="Pesquisar arquivo..."
+            aria-label="Pesquisar arquivo"
+          >
+
+          <div id="codeList" class="code-list"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel viewer">
+          <div class="viewer-head">
+            <div>
+              <h3 id="viewerTitle" class="viewer-title">Nenhum arquivo selecionado</h3>
+              <p id="viewerMeta" class="subtitle">Selecione um arquivo na lista.</p>
+            </div>
+
+            <div class="viewer-actions">
+              <button id="copyButton" class="btn" type="button" disabled>
+                📋 Copiar
+              </button>
+
+              <button id="editButton" class="btn" type="button" disabled>
+                ✏️ Editar
+              </button>
+
+              <button id="deleteButton" class="btn btn-danger" type="button" disabled>
+                Excluir
+              </button>
+            </div>
+          </div>
+
+          <pre id="codeViewer"><code>O código aparecerá aqui.</code></pre>
+          <div id="viewerStatus" class="status" role="status" style="padding: 0 15px 12px;"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    Priston Code Archive · Biblioteca de desenvolvimento
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "priston-code-archive-v1";
+
+      const form = document.getElementById("codeForm");
+      const nameInput = document.getElementById("fileName");
+      const categoryInput = document.getElementById("fileCategory");
+      const codeInput = document.getElementById("fileCode");
+      const searchInput = document.getElementById("search");
+      const codeList = document.getElementById("codeList");
+      const viewerTitle = document.getElementById("viewerTitle");
+      const viewerMeta = document.getElementById("viewerMeta");
+      const codeViewer = document.querySelector("#codeViewer code");
+      const formStatus = document.getElementById("formStatus");
+      const viewerStatus = document.getElementById("viewerStatus");
+      const copyButton = document.getElementById("copyButton");
+      const editButton = document.getElementById("editButton");
+      const deleteButton = document.getElementById("deleteButton");
+
+      let codes = loadCodes();
+      let selectedId = null;
+      let editingId = null;
+
+      function loadCodes() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          const parsed = saved ? JSON.parse(saved) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function persistCodes() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(codes));
+          return true;
+        } catch {
+          formStatus.textContent =
+            "Não foi possível salvar. O armazenamento do navegador pode estar cheio.";
+          return false;
+        }
+      }
+
+      function createId() {
+        return Date.now().toString(36) +
+          Math.random().toString(36).slice(2, 10);
+      }
+
+      function formatDate(value) {
+        return new Date(value).toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short"
+        });
+      }
+
+      function renderList() {
+        const query = searchInput.value.trim().toLowerCase();
+
+        const filtered = codes.filter(item =>
+          item.name.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query)
+        );
+
+        codeList.replaceChildren();
+
+        if (!filtered.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = codes.length
+            ? "Nenhum arquivo encontrado."
+            : "Nenhum código salvo neste navegador. Adicione o primeiro!";
+          codeList.appendChild(empty);
+          return;
+        }
+
+        filtered.forEach(item => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className =
+            "code-item" + (item.id === selectedId ? " active" : "");
+
+          const icon = document.createElement("span");
+          icon.className = "file-icon";
+          icon.textContent = "📄";
+
+          const info = document.createElement("span");
+          info.className = "file-info";
+
+          const name = document.createElement("span");
+          name.className = "file-name";
+          name.textContent = item.name;
+
+          const meta = document.createElement("span");
+          meta.className = "file-meta";
+          meta.textContent = item.category + " · " + formatDate(item.updatedAt);
+
+          info.append(name, meta);
+          button.append(icon, info);
+
+          button.addEventListener("click", () => selectCode(item.id));
+          codeList.appendChild(button);
+        });
+      }
+
+      function selectCode(id) {
+        const item = codes.find(code => code.id === id);
+        if (!item) return;
+
+        selectedId = id;
+        viewerTitle.textContent = item.name;
+        viewerMeta.textContent = item.category + " · Atualizado em " +
+          formatDate(item.updatedAt);
+        codeViewer.textContent = item.code;
+
+        copyButton.disabled = false;
+        editButton.disabled = false;
+        deleteButton.disabled = false;
+        viewerStatus.textContent = "";
+
+        renderList();
+      }
+
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const code = codeInput.value;
+        const category = categoryInput.value;
+
+        if (!name || !code.trim()) {
+          formStatus.textContent = "Informe o nome e o conteúdo do código.";
+          return;
+        }
+
+        const duplicate = codes.find(item =>
+          item.name.toLowerCase() === name.toLowerCase() &&
+          item.id !== editingId
+        );
+
+        if (duplicate && !confirm(
+          "Já existe um arquivo com esse nome. Deseja salvar outro com o mesmo nome?"
+        )) {
+          return;
+        }
+
+        const now = new Date().toISOString();
+
+        if (editingId) {
+          const item = codes.find(entry => entry.id === editingId);
+          if (!item) return;
+
+          item.name = name;
+          item.category = category;
+          item.code = code;
+          item.updatedAt = now;
+          selectedId = item.id;
+        } else {
+          const item = {
+            id: createId(),
+            name,
+            category,
+            code,
+            createdAt: now,
+            updatedAt: now
+          };
+
+          codes.unshift(item);
+          selectedId = item.id;
+        }
+
+        if (!persistCodes()) return;
+
+        const savedId = selectedId;
+        editingId = null;
+        form.reset();
+        formStatus.textContent = "Código salvo neste navegador.";
+        renderList();
+        selectCode(savedId);
+      });
+
+      searchInput.addEventListener("input", renderList);
+
+      copyButton.addEventListener("click", async () => {
+        const item = codes.find(entry => entry.id === selectedId);
+        if (!item) return;
+
+        try {
+          await navigator.clipboard.writeText(item.code);
+          viewerStatus.textContent = "Código copiado!";
+        } catch {
+          const area = document.createElement("textarea");
+          area.value = item.code;
+          area.style.position = "absolute";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+
+          const copied = document.execCommand("copy");
+          area.remove();
+
+          viewerStatus.textContent = copied
+            ? "Código copiado!"
+            : "Não foi possível copiar automaticamente. Selecione o código manualmente.";
+        }
+      });
+
+      editButton.addEventListener("click", () => {
+        const item = codes.find(entry => entry.id === selectedId);
+        if (!item) return;
+
+        editingId = item.id;
+        nameInput.value = item.name;
+        categoryInput.value = item.category;
+        codeInput.value = item.code;
+        formStatus.textContent = "Editando " + item.name + ". Salve para aplicar as alterações.";
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+        nameInput.focus();
+      });
+
+      deleteButton.addEventListener("click", () => {
+        const item = codes.find(entry => entry.id === selectedId);
+        if (!item) return;
+
+        if (!confirm("Excluir " + item.name + "? Esta ação não pode ser desfeita.")) {
+          return;
+        }
+
+        codes = codes.filter(entry => entry.id !== selectedId);
+
+        if (!persistCodes()) return;
+
+        selectedId = null;
+        editingId = null;
+        viewerTitle.textContent = "Nenhum arquivo selecionado";
+        viewerMeta.textContent = "Selecione um arquivo na lista.";
+        codeViewer.textContent = "O código aparecerá aqui.";
+        copyButton.disabled = true;
+        editButton.disabled = true;
+        deleteButton.disabled = true;
+        viewerStatus.textContent = "";
+        formStatus.textContent = "Arquivo excluído deste navegador.";
+        renderList();
+      });
+
+      renderList();
+    })();
+  </script>
+</body>
+</html>
