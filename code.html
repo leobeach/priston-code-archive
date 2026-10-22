@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0c">
+  <meta name="description" content="Visualizador de código-fonte do Priston Code Archive.">
+  <title>Código | Priston Code Archive</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080a0c;
+      --surface: #0e1115;
+      --border: #28313a;
+      --text: #e8edf2;
+      --muted: #87939e;
+      --accent: #b8f36b;
+      --danger: #ff8585;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      line-height: 1.55;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: #0b0e11;
+    }
+
+    .top {
+      max-width: 1000px;
+      margin: auto;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #42513a;
+      color: var(--accent);
+      background: #141b10;
+      border-radius: 8px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      font: 700 19px/1.25 system-ui, sans-serif;
+      margin: 0;
+    }
+
+    .sub {
+      font: 12px system-ui, sans-serif;
+      color: var(--muted);
+      margin: 4px 0 0;
+    }
+
+    main {
+      max-width: 1000px;
+      width: calc(100% - 24px);
+      margin: 24px auto 48px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    button,
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 13px;
+      border: 1px solid #35404a;
+      border-radius: 7px;
+      color: var(--text);
+      background: #191f26;
+      font: 700 12px system-ui, sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #10150a;
+      border-color: var(--accent);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .head {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font: 700 17px/1.4 system-ui, sans-serif;
+      overflow-wrap: anywhere;
+      margin: 0;
+    }
+
+    .meta {
+      font: 12px system-ui, sans-serif;
+      color: var(--muted);
+      margin: 6px 0 0;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      min-height: 220px;
+      overflow: auto;
+      background: #07090b;
+      color: #d4dde5;
+      font: 12px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre;
+      tab-size: 2;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    code {
+      font: inherit;
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    #status {
+      padding: 12px 16px;
+      color: var(--accent);
+      font: 12px/1.5 system-ui, sans-serif;
+      overflow-wrap: anywhere;
+    }
+
+    #status.error {
+      color: var(--danger);
+    }
+
+    @media (max-width: 560px) {
+      .top {
+        padding: 13px;
+      }
+
+      .sub {
+        font-size: 11px;
+      }
+
+      main {
+        margin-top: 16px;
+      }
+
+      pre {
+        padding: 13px;
+        font-size: 12px;
+      }
+
+      .actions button,
+      .actions a {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <div class="mark" aria-hidden="true">P</div>
+
+      <div>
+        <h1>Priston Code Archive</h1>
+        <p class="sub">VISUALIZADOR DE CÓDIGO-FONTE</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="actions">
+      <a class="btn" href="./">← Voltar à biblioteca</a>
+
+      <button
+        class="primary"
+        id="copy"
+        type="button"
+        disabled
+      >
+        Copiar código completo
+      </button>
+    </div>
+
+    <section class="panel">
+      <div class="head">
+        <h2 id="name">Carregando arquivo…</h2>
+        <p class="meta" id="meta">Consultando o Supabase</p>
+      </div>
+
+      <pre><code id="source">Carregando…</code></pre>
+
+      <div class="foot">
+        <span>PLAIN TEXT / SOURCE</span>
+        <span id="lines">— linhas</span>
+      </div>
+
+      <div id="status" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Configuração do Supabase
+      const SUPABASE_URL =
+        "https://usczxmaqzmvlyvchvaqv.supabase.co";
+
+      const SUPABASE_KEY =
+        "sb_publishable_nPQdBxnzrybkDKQbWlbz2w_Rg9xAVCP";
+
+      const TABLE = "codes_priston";
+
+      // ID do arquivo recebido pelo link: code.html?id=123
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+
+      const nameEl = document.getElementById("name");
+      const metaEl = document.getElementById("meta");
+      const sourceEl = document.getElementById("source");
+      const linesEl = document.getElementById("lines");
+      const statusEl = document.getElementById("status");
+      const copyButton = document.getElementById("copy");
+
+      let fullCode = "";
+
+      function showStatus(message, error = false) {
+        statusEl.textContent = message;
+        statusEl.classList.toggle("error", error);
+      }
+
+      function formatDate(value) {
+        if (!value) return "";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+          return "";
+        }
+
+        return date.toLocaleString("pt-BR");
+      }
+
+      async function loadCode() {
+        if (!id) {
+          nameEl.textContent = "Arquivo não especificado";
+          metaEl.textContent =
+            "Volte à biblioteca e selecione um arquivo.";
+
+          sourceEl.textContent = "";
+
+          showStatus(
+            "O link precisa conter o ID do arquivo (?id=...).",
+            true
+          );
+
+          return;
+        }
+
+        if (!window.supabase) {
+          nameEl.textContent = "Biblioteca indisponível";
+
+          showStatus(
+            "Não foi possível carregar o cliente do Supabase. Atualize a página.",
+            true
+          );
+
+          return;
+        }
+
+        try {
+          const client = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          );
+
+          const { data, error } = await client
+            .from(TABLE)
+            .select(
+              "id,name,category,code,created_at,updated_at"
+            )
+            .eq("id", id)
+            .maybeSingle();
+
+          if (error) {
+            nameEl.textContent =
+              "Não foi possível abrir o arquivo";
+
+            metaEl.textContent =
+              "Erro ao consultar o banco de dados.";
+
+            sourceEl.textContent = "";
+
+            showStatus(
+              "Erro do Supabase: " + error.message,
+              true
+            );
+
+            return;
+          }
+
+          if (!data) {
+            nameEl.textContent = "Arquivo não encontrado";
+
+            metaEl.textContent =
+              "O arquivo pode ter sido excluído ou a leitura pode estar bloqueada.";
+
+            sourceEl.textContent = "";
+
+            showStatus(
+              "Nenhum registro foi retornado para este ID.",
+              true
+            );
+
+            return;
+          }
+
+          document.title =
+            (data.name || "Código") + " | Priston Code Archive";
+
+          nameEl.textContent =
+            data.name || "Arquivo sem nome";
+
+          const category = data.category || "Outros";
+          const updated = formatDate(data.updated_at);
+
+          metaEl.textContent =
+            category + (updated ? " · Atualizado " + updated : "");
+
+          fullCode = data.code || "";
+
+          // textContent exibe o código como texto, sem executá-lo.
+          sourceEl.textContent = fullCode;
+
+          const lineCount = fullCode
+            ? fullCode.split("\n").length
+            : 0;
+
+          linesEl.textContent = lineCount + " linhas";
+
+          copyButton.disabled = false;
+
+          showStatus(
+            "Código completo carregado. Você pode copiar e colar aqui na conversa para eu analisar."
+          );
+        } catch (error) {
+          nameEl.textContent = "Erro ao carregar arquivo";
+          sourceEl.textContent = "";
+
+          showStatus(
+            error.message || "Ocorreu um erro inesperado.",
+            true
+          );
+        }
+      }
+
+      async function copyCode() {
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(fullCode);
+
+            showStatus(
+              "Código completo copiado. Agora você pode colar aqui na conversa."
+            );
+
+            return;
+          }
+
+          throw new Error("Clipboard API indisponível");
+        } catch {
+          // Alternativa para navegadores sem Clipboard API.
+          const area = document.createElement("textarea");
+
+          area.value = fullCode;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.left = "-9999px";
+
+          document.body.appendChild(area);
+          area.select();
+
+          let copied = false;
+
+          try {
+            copied = document.execCommand("copy");
+          } catch {
+            copied = false;
+          }
+
+          area.remove();
+
+          if (copied) {
+            showStatus(
+              "Código completo copiado. Agora você pode colar aqui na conversa."
+            );
+          } else {
+            showStatus(
+              "Não foi possível copiar automaticamente. Selecione o código e copie manualmente.",
+              true
+            );
+          }
+        }
+      }
+
+      copyButton.addEventListener("click", copyCode);
+
+      loadCode();
+    })();
+  </script>
+</body>
+</html>
