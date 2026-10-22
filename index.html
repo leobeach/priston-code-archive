@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#100e0b">
-  <title>Priston Code</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Priston Code</title>  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
     :root {
       --bg: #100e0b;
       --panel: #19150f;
@@ -21,7 +14,7 @@
       --gold-light: #ead39a;
       --text: #e8dfcb;
       --muted: #958975;
-      --border: rgba(198, 161, 90, .30);
+      --border: rgba(198,161,90,.30);
       --green: #91b57c;
       --red: #d58b7e;
     }
@@ -33,8 +26,8 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(ellipse at 50% -15%, rgba(135, 93, 36, .17), transparent 55%),
-        repeating-linear-gradient(135deg, rgba(255,255,255,.009) 0px, rgba(255,255,255,.009) 1px, transparent 1px, transparent 5px),
+        radial-gradient(ellipse at 50% -15%, rgba(135,93,36,.17), transparent 55%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.009) 0, rgba(255,255,255,.009) 1px, transparent 1px, transparent 5px),
         var(--bg);
       font-family: "Inter", sans-serif;
     }
@@ -89,7 +82,9 @@
 
     .toolbar {
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
+      gap: 9px;
       margin-bottom: 18px;
     }
 
@@ -113,7 +108,18 @@
       cursor: wait;
     }
 
-    .gold-button:active { transform: scale(.98); }
+    .gold-button:active,
+    .secondary-button:active { transform: scale(.98); }
+
+    .secondary-button {
+      min-height: 43px;
+      padding: 10px 14px;
+      color: var(--gold-light);
+      background: transparent;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 13px;
+    }
 
     button:focus-visible,
     input:focus-visible,
@@ -129,135 +135,15 @@
       line-height: 14px;
     }
 
-    .search-wrap {
-      position: relative;
-      margin-bottom: 14px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gold);
-      font-size: 18px;
-      pointer-events: none;
-    }
-
-    #search {
-      width: 100%;
-      min-height: 49px;
-      padding: 13px 14px 13px 43px;
-      color: var(--text);
-      background: rgba(20, 17, 12, .94);
-      border: 1px solid var(--border);
-      border-radius: 0;
-      font-size: 14px;
-    }
-
-    #search::placeholder { color: #857966; }
-
-    .file-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .file-row {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 13px;
-      text-align: left;
-      color: var(--text);
-      background: linear-gradient(110deg, rgba(255,255,255,.018), transparent 55%), var(--panel);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .file-row:hover {
-      border-color: rgba(234, 211, 154, .65);
-      background-color: var(--panel-light);
-    }
-
-    .file-row::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 2px;
-      background: var(--gold);
-      opacity: .55;
-    }
-
-    .file-plaque {
-      width: 43px;
-      height: 47px;
-      flex: 0 0 43px;
-      display: grid;
-      place-items: center;
-      color: var(--gold-light);
-      font-family: "Cinzel", serif;
-      font-size: 20px;
-      font-weight: 600;
-      border: 1px solid rgba(198, 161, 90, .46);
-      background: #17130e;
-      clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
-    }
-
-    .file-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .file-name {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      overflow-wrap: anywhere;
-      line-height: 1.5;
-    }
-
-    .file-category {
-      display: inline-block;
-      margin-top: 5px;
-      color: var(--gold);
-      font-size: 10px;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-    }
-
-    .file-arrow {
-      color: var(--gold);
-      font-size: 19px;
-      padding: 0 3px;
-    }
-
-    .status {
-      padding: 25px 14px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      background: rgba(25, 21, 15, .65);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .status.error { color: var(--red); }
-    .status.success { color: var(--green); }
-
-    .form-panel {
-      display: none;
-      margin-bottom: 20px;
+    .panel {
+      margin-bottom: 18px;
       padding: 18px;
       border: 1px solid var(--border);
       background: linear-gradient(145deg, rgba(198,161,90,.06), transparent 65%), var(--panel);
     }
 
-    .form-panel.visible { display: block; }
+    .panel[hidden],
+    [hidden] { display: none !important; }
 
     .form-heading {
       margin: 0 0 17px;
@@ -265,6 +151,13 @@
       font-family: "Cinzel", serif;
       font-size: 16px;
       font-weight: 600;
+    }
+
+    .panel-description {
+      margin: -6px 0 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .field { margin-bottom: 13px; }
@@ -311,21 +204,11 @@
       margin-top: 17px;
     }
 
-    .secondary-button {
-      min-height: 43px;
-      padding: 10px 14px;
-      color: var(--gold-light);
-      background: transparent;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      font-size: 13px;
-    }
-
     .form-message {
       display: none;
       margin-top: 13px;
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
       overflow-wrap: anywhere;
     }
 
@@ -333,11 +216,179 @@
     .form-message.error { color: var(--red); }
     .form-message.success { color: var(--green); }
 
+    .search-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 14px 13px 43px;
+      color: var(--text);
+      background: rgba(20,17,12,.94);
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    #search::placeholder { color: #857966; }
+
+    .file-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .file-entry {
+      min-width: 0;
+      border: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    .file-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 13px;
+      text-align: left;
+      color: var(--text);
+      background: linear-gradient(110deg, rgba(255,255,255,.018), transparent 55%), var(--panel);
+      border: 0;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-row:hover {
+      background-color: var(--panel-light);
+    }
+
+    .file-row::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background: var(--gold);
+      opacity: .55;
+    }
+
+    .file-plaque {
+      width: 43px;
+      height: 47px;
+      flex: 0 0 43px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-light);
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      font-weight: 600;
+      border: 1px solid rgba(198,161,90,.46);
+      background: #17130e;
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+    }
+
+    .file-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-name {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+      line-height: 1.5;
+    }
+
+    .file-category {
+      display: inline-block;
+      margin-top: 5px;
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .file-arrow {
+      color: var(--gold);
+      font-size: 19px;
+      padding: 0 3px;
+    }
+
+    .entry-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 12px 12px;
+    }
+
+    .entry-actions .secondary-button {
+      min-height: 38px;
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+
+    .published-link {
+      display: block;
+      margin: 0 12px 12px;
+      color: var(--green);
+      font-size: 11px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .published-link a {
+      color: var(--gold-light);
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      padding: 25px 14px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      background: rgba(25,21,15,.65);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .status.error { color: var(--red); }
+    .status.success { color: var(--green); }
+
+    .form-panel {
+      display: none;
+      margin-bottom: 20px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(198,161,90,.06), transparent 65%), var(--panel);
+    }
+
+    .form-panel.visible { display: block; }
+
     .counter {
       margin-top: 12px;
       color: var(--muted);
       font-size: 11px;
       text-align: right;
+    }
+
+    .account-status {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
     }
 
     footer {
@@ -373,8 +424,11 @@
         flex-basis: 39px;
       }
 
+      .panel,
       .form-panel { padding: 14px; }
-      .gold-button { width: 100%; }
+
+      .toolbar > button { flex: 1 1 100%; }
+      .form-actions > button { flex: 1 1 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -383,114 +437,157 @@
         transition-duration: .01ms !important;
       }
     }
-  </style>
-</head>
-
-<body>
+  </style></head><body>
   <main class="page">
     <header>
       <div class="brand">PRISTON CODE</div>
       <div class="brand-badge">ARQUIVO</div>
-    </header>
+    </header><!-- Login / sessão -->
+<section class="panel" id="authPanel">
+  <h2 class="form-heading" id="authHeading">Acesso administrativo</h2>
+  <p class="panel-description" id="authDescription">
+    Entre com sua conta administrativa para adicionar e publicar códigos.
+    A consulta ao arquivo continua pública.
+  </p>
 
-    <div class="toolbar">
-      <button
-        class="gold-button"
-        id="toggleForm"
-        type="button"
-        aria-expanded="false"
-        aria-controls="addForm"
+  <form id="loginForm">
+    <div class="field">
+      <label for="loginEmail">E-mail</label>
+      <input
+        id="loginEmail"
+        type="email"
+        autocomplete="username"
+        placeholder="Seu e-mail"
+        required
       >
-        <span class="plus" aria-hidden="true">+</span>
-        <span>Adicionar código</span>
+    </div>
+
+    <div class="field">
+      <label for="loginPassword">Senha</label>
+      <input
+        id="loginPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Sua senha"
+        required
+      >
+    </div>
+
+    <div class="form-actions">
+      <button class="gold-button" id="loginButton" type="submit">
+        Entrar
+      </button>
+      <button class="secondary-button" id="logoutButton" type="button" hidden>
+        Sair da conta
       </button>
     </div>
 
-    <section class="form-panel" id="addForm" aria-hidden="true">
-      <h2 class="form-heading">Novo registro</h2>
+    <div
+      class="form-message"
+      id="authMessage"
+      role="status"
+      aria-live="polite"
+    ></div>
+  </form>
+</section>
 
-      <form id="codeForm">
-        <div class="field">
-          <label for="codeName">Nome do arquivo</label>
-          <input
-            id="codeName"
-            name="name"
-            type="text"
-            maxlength="120"
-            placeholder="Ex.: Bguardian.smd"
-            required
-          >
-        </div>
+<div class="toolbar">
+  <button
+    class="gold-button"
+    id="toggleForm"
+    type="button"
+    aria-expanded="false"
+    aria-controls="addForm"
+    hidden
+  >
+    <span class="plus" aria-hidden="true">+</span>
+    <span>Adicionar código</span>
+  </button>
+</div>
 
-        <div class="field">
-          <label for="codeCategory">Categoria</label>
-          <select id="codeCategory" name="category" required>
-            <option value="Código">Código</option>
-            <option value="Cliente">Cliente</option>
-            <option value="Servidor">Servidor</option>
-            <option value="Monstros">Monstros</option>
-            <option value="Mapas">Mapas</option>
-            <option value="Personagens">Personagens</option>
-            <option value="Efeitos">Efeitos</option>
-            <option value="Interface">Interface</option>
-            <option value="Outros">Outros</option>
-          </select>
-        </div>
+<section class="form-panel" id="addForm" aria-hidden="true">
+  <h2 class="form-heading">Novo registro</h2>
 
-        <div class="field">
-          <label for="codeContent">Código ou conteúdo</label>
-          <textarea
-            id="codeContent"
-            name="code"
-            placeholder="Cole o conteúdo aqui..."
-            required
-          ></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button class="gold-button" id="saveButton" type="submit">
-            Salvar código
-          </button>
-
-          <button class="secondary-button" id="cancelForm" type="button">
-            Cancelar
-          </button>
-        </div>
-
-        <div
-          class="form-message"
-          id="formMessage"
-          role="status"
-          aria-live="polite"
-        ></div>
-      </form>
-    </section>
-
-    <div class="search-wrap">
-      <span class="search-icon" aria-hidden="true">⌕</span>
+  <form id="codeForm">
+    <div class="field">
+      <label for="codeName">Nome do arquivo</label>
       <input
-        id="search"
-        type="search"
-        placeholder="Buscar arquivo..."
-        aria-label="Buscar arquivo"
-        autocomplete="off"
+        id="codeName"
+        name="name"
+        type="text"
+        maxlength="120"
+        placeholder="Ex.: Bguardian.smd"
+        required
       >
     </div>
 
-    <section
-      class="file-list"
-      id="fileList"
-      aria-label="Arquivos cadastrados"
+    <div class="field">
+      <label for="codeCategory">Categoria</label>
+      <select id="codeCategory" name="category" required>
+        <option value="Código">Código</option>
+        <option value="Cliente">Cliente</option>
+        <option value="Servidor">Servidor</option>
+        <option value="Monstros">Monstros</option>
+        <option value="Mapas">Mapas</option>
+        <option value="Personagens">Personagens</option>
+        <option value="Efeitos">Efeitos</option>
+        <option value="Interface">Interface</option>
+        <option value="Outros">Outros</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="codeContent">Código ou conteúdo</label>
+      <textarea
+        id="codeContent"
+        name="code"
+        placeholder="Cole o conteúdo aqui..."
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="gold-button" id="saveButton" type="submit">
+        Salvar código
+      </button>
+      <button class="secondary-button" id="cancelForm" type="button">
+        Cancelar
+      </button>
+    </div>
+
+    <div
+      class="form-message"
+      id="formMessage"
+      role="status"
       aria-live="polite"
-    >
-      <div class="status">Carregando arquivos...</div>
-    </section>
+    ></div>
+  </form>
+</section>
 
-    <div class="counter" id="counter"></div>
-    <footer>PRISTON TALE CODE ARCHIVE</footer>
-  </main>
+<div class="search-wrap">
+  <span class="search-icon" aria-hidden="true">⌕</span>
+  <input
+    id="search"
+    type="search"
+    placeholder="Buscar arquivo..."
+    aria-label="Buscar arquivo"
+    autocomplete="off"
+  >
+</div>
 
-  <script>
+<section
+  class="file-list"
+  id="fileList"
+  aria-label="Arquivos cadastrados"
+  aria-live="polite"
+>
+  <div class="status">Carregando arquivos...</div>
+</section>
+
+<div class="counter" id="counter"></div>
+<footer>PRISTON TALE CODE ARCHIVE</footer>
+
+  </main>  <script>
     "use strict";
 
     const SUPABASE_URL =
@@ -498,6 +595,11 @@
 
     const SUPABASE_KEY =
       "sb_publishable_nPQdBxnzrybkDKQbWlbz2w_Rg9xAVCP";
+
+    // Este UID serve apenas para controlar o que aparece na interface.
+    // A função publish-code também precisa validar o UID no servidor.
+    const ADMIN_USER_ID =
+      "fafeb1f7-c3ce-47b2-99b2-527cc69fca7d";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -507,6 +609,15 @@
     const fileList = document.getElementById("fileList");
     const searchInput = document.getElementById("search");
     const counter = document.getElementById("counter");
+
+    const authPanel = document.getElementById("authPanel");
+    const authHeading = document.getElementById("authHeading");
+    const authDescription = document.getElementById("authDescription");
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+    const authMessage = document.getElementById("authMessage");
+
     const formPanel = document.getElementById("addForm");
     const toggleFormButton = document.getElementById("toggleForm");
     const cancelFormButton = document.getElementById("cancelForm");
@@ -515,6 +626,18 @@
     const formMessage = document.getElementById("formMessage");
 
     let allCodes = [];
+    let currentUser = null;
+    let isAdmin = false;
+
+    function showMessage(element, message, type) {
+      element.textContent = message;
+      element.className = "form-message visible " + type;
+    }
+
+    function hideMessage(element) {
+      element.textContent = "";
+      element.className = "form-message";
+    }
 
     function showStatus(message, type = "") {
       fileList.replaceChildren();
@@ -527,17 +650,16 @@
       counter.textContent = "";
     }
 
-    function showFormMessage(message, type) {
-      formMessage.textContent = message;
-      formMessage.className = "form-message visible " + type;
-    }
-
-    function hideFormMessage() {
-      formMessage.textContent = "";
-      formMessage.className = "form-message";
+    function normalize(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
     }
 
     function openForm() {
+      if (!isAdmin) return;
+
       formPanel.classList.add("visible");
       formPanel.setAttribute("aria-hidden", "false");
       toggleFormButton.setAttribute("aria-expanded", "true");
@@ -556,7 +678,7 @@
       toggleFormButton.querySelector("span:last-child").textContent =
         "Adicionar código";
 
-      hideFormMessage();
+      hideMessage(formMessage);
     }
 
     toggleFormButton.addEventListener("click", () => {
@@ -569,17 +691,106 @@
 
     cancelFormButton.addEventListener("click", closeForm);
 
-    function normalize(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+    function updateAuthUI() {
+      isAdmin = Boolean(
+        currentUser && currentUser.id === ADMIN_USER_ID
+      );
+
+      loginForm.hidden = Boolean(currentUser);
+      logoutButton.hidden = !currentUser;
+      toggleFormButton.hidden = !isAdmin;
+
+      if (!currentUser) {
+        authHeading.textContent = "Acesso administrativo";
+        authDescription.textContent =
+          "Entre com sua conta para adicionar e publicar códigos. A consulta ao arquivo continua pública.";
+        closeForm();
+        return;
+      }
+
+      if (isAdmin) {
+        authHeading.textContent = "Administrador conectado";
+        authDescription.textContent =
+          "Sua conta administrativa está conectada. Você pode cadastrar códigos e solicitar a publicação no GitHub.";
+      } else {
+        authHeading.textContent = "Conta sem permissão administrativa";
+        authDescription.textContent =
+          "Esta conta está conectada, mas não tem permissão para adicionar ou publicar códigos.";
+        closeForm();
+      }
+
+      hideMessage(authMessage);
     }
 
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      hideMessage(authMessage);
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Entrando...";
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        currentUser = data.user;
+        updateAuthUI();
+
+        if (currentUser && currentUser.id !== ADMIN_USER_ID) {
+          showMessage(
+            authMessage,
+            "Login realizado, mas esta conta não é a administradora.",
+            "error"
+          );
+        } else {
+          showMessage(authMessage, "Login realizado com sucesso.", "success");
+        }
+      } catch (error) {
+        console.error("Erro de login:", error);
+        showMessage(
+          authMessage,
+          "Não foi possível entrar. Confira o e-mail e a senha da conta Supabase.",
+          "error"
+        );
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Entrar";
+      }
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      logoutButton.disabled = true;
+
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+
+        currentUser = null;
+        updateAuthUI();
+        showMessage(authMessage, "Você saiu da sua conta.", "success");
+      } catch (error) {
+        console.error("Erro ao sair:", error);
+        showMessage(authMessage, "Não foi possível sair da conta.", "error");
+      } finally {
+        logoutButton.disabled = false;
+      }
+    });
+
     function createFileRow(item) {
+      const entry = document.createElement("article");
+      entry.className = "file-entry";
+
       const button = document.createElement("button");
       button.type = "button";
       button.className = "file-row";
+      button.setAttribute("aria-label", "Abrir " + (item.name || "arquivo"));
 
       const plaque = document.createElement("span");
       plaque.className = "file-plaque";
@@ -599,28 +810,140 @@
       category.className = "file-category";
       category.textContent = item.category || "Código";
 
-      info.appendChild(name);
-      info.appendChild(category);
+      info.append(name, category);
 
       const arrow = document.createElement("span");
       arrow.className = "file-arrow";
       arrow.setAttribute("aria-hidden", "true");
       arrow.textContent = "›";
 
-      button.appendChild(plaque);
-      button.appendChild(info);
-      button.appendChild(arrow);
+      button.append(plaque, info, arrow);
 
-      // CORRIGIDO:
-      // Abre o visualizador hospedado no GitHub Pages,
-      // e não o HTML retornado diretamente pelo Supabase.
       button.addEventListener("click", () => {
         const target = new URL("code.html", window.location.href);
         target.searchParams.set("id", String(item.id));
         window.location.href = target.href;
       });
 
-      return button;
+      entry.appendChild(button);
+
+      // Ações administrativas aparecem apenas para a conta configurada.
+      if (isAdmin) {
+        const actions = document.createElement("div");
+        actions.className = "entry-actions";
+
+        const publishButton = document.createElement("button");
+        publishButton.type = "button";
+        publishButton.className = "secondary-button";
+        publishButton.textContent = "Publicar no GitHub";
+
+        const copyButton = document.createElement("button");
+        copyButton.type = "button";
+        copyButton.className = "secondary-button";
+        copyButton.textContent = "Copiar link do código";
+
+        const result = document.createElement("div");
+        result.className = "published-link";
+        result.hidden = true;
+
+        publishButton.addEventListener("click", async () => {
+          if (!isAdmin) {
+            showMessage(authMessage, "Acesso administrativo necessário.", "error");
+            return;
+          }
+
+          publishButton.disabled = true;
+          publishButton.textContent = "Publicando...";
+          result.hidden = true;
+          result.textContent = "";
+
+          try {
+            const { data: sessionData } =
+              await supabaseClient.auth.getSession();
+
+            const session = sessionData?.session;
+
+            if (!session || session.user.id !== ADMIN_USER_ID) {
+              throw new Error("Entre com a conta administrativa antes de publicar.");
+            }
+
+            const { data, error } = await supabaseClient.functions.invoke(
+              "publish-code",
+              { body: { id: String(item.id) } }
+            );
+
+            if (error) {
+              let detail = error.message || "A função não conseguiu publicar.";
+              throw new Error(detail);
+            }
+
+            if (data?.error) {
+              throw new Error(data.error);
+            }
+
+            const publishedUrl =
+              data?.url ||
+              data?.raw_url ||
+              data?.rawUrl ||
+              data?.html_url;
+
+            if (!publishedUrl) {
+              throw new Error(
+                "A função respondeu, mas não retornou o link. Confira a resposta de publish-code."
+              );
+            }
+
+            result.replaceChildren();
+
+            const label = document.createElement("span");
+            label.textContent = "Publicado: ";
+
+            const link = document.createElement("a");
+            link.href = publishedUrl;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = publishedUrl;
+
+            result.append(label, link);
+            result.hidden = false;
+
+            try {
+              await navigator.clipboard.writeText(publishedUrl);
+              publishButton.textContent = "Publicado e link copiado!";
+            } catch {
+              publishButton.textContent = "Publicado com sucesso!";
+            }
+          } catch (error) {
+            console.error("Erro ao publicar:", error);
+            result.textContent = "Falha ao publicar: " + error.message;
+            result.hidden = false;
+            publishButton.textContent = "Tentar publicar novamente";
+          } finally {
+            publishButton.disabled = false;
+          }
+        });
+
+        copyButton.addEventListener("click", async () => {
+          const target = new URL("code.html", window.location.href);
+          target.searchParams.set("id", String(item.id));
+
+          try {
+            await navigator.clipboard.writeText(target.href);
+            copyButton.textContent = "Link copiado!";
+          } catch {
+            window.prompt("Copie o link abaixo:", target.href);
+          }
+
+          setTimeout(() => {
+            copyButton.textContent = "Copiar link do código";
+          }, 1800);
+        });
+
+        actions.append(publishButton, copyButton);
+        entry.append(actions, result);
+      }
+
+      return entry;
     }
 
     function renderCodes() {
@@ -635,11 +958,14 @@
       fileList.replaceChildren();
 
       if (filtered.length === 0) {
-        const message = query
+        const message = document.createElement("div");
+        message.className = "status";
+        message.textContent = query
           ? "Nenhum arquivo encontrado para essa pesquisa."
           : "Ainda não há códigos cadastrados.";
 
-        showStatus(message);
+        fileList.appendChild(message);
+        counter.textContent = "";
         return;
       }
 
@@ -652,9 +978,7 @@
       fileList.appendChild(fragment);
 
       counter.textContent =
-        filtered.length + (filtered.length === 1
-          ? " arquivo"
-          : " arquivos");
+        filtered.length + (filtered.length === 1 ? " arquivo" : " arquivos");
     }
 
     async function loadCodes() {
@@ -668,9 +992,8 @@
 
         if (error) {
           console.error("Erro ao carregar códigos:", error);
-
           showStatus(
-            "Não foi possível carregar os arquivos. Verifique a conexão com o Supabase.",
+            "Não foi possível carregar os arquivos. Confira as permissões de leitura do Supabase.",
             "error"
           );
           return;
@@ -680,10 +1003,7 @@
         renderCodes();
       } catch (error) {
         console.error(error);
-        showStatus(
-          "Erro de conexão ao carregar os arquivos.",
-          "error"
-        );
+        showStatus("Erro de conexão ao carregar os arquivos.", "error");
       }
     }
 
@@ -691,14 +1011,24 @@
 
     codeForm.addEventListener("submit", async event => {
       event.preventDefault();
-      hideFormMessage();
+      hideMessage(formMessage);
+
+      if (!isAdmin || !currentUser) {
+        showMessage(
+          formMessage,
+          "Entre com a conta administrativa para salvar códigos.",
+          "error"
+        );
+        return;
+      }
 
       const name = document.getElementById("codeName").value.trim();
       const category = document.getElementById("codeCategory").value;
       const code = document.getElementById("codeContent").value;
 
       if (!name || !code.trim()) {
-        showFormMessage(
+        showMessage(
+          formMessage,
           "Preencha o nome do arquivo e o conteúdo.",
           "error"
         );
@@ -709,31 +1039,35 @@
       saveButton.textContent = "Salvando...";
 
       try {
+        const { data: sessionData } = await supabaseClient.auth.getSession();
+        const session = sessionData?.session;
+
+        if (!session || session.user.id !== ADMIN_USER_ID) {
+          throw new Error("Sua sessão administrativa não está ativa.");
+        }
+
         const { error } = await supabaseClient
           .from("codes_priston")
           .insert([{ name, category, code }]);
 
         if (error) {
           console.error("Erro ao salvar código:", error);
-
-          showFormMessage(
-            "Não foi possível salvar. Confira a conexão e as permissões existentes do Supabase.",
-            "error"
+          throw new Error(
+            "Não foi possível salvar. Confira as políticas RLS da tabela codes_priston."
           );
-          return;
         }
 
         codeForm.reset();
-        showFormMessage("Código salvo com sucesso.", "success");
+        showMessage(formMessage, "Código salvo com sucesso.", "success");
 
         await loadCodes();
 
-        setTimeout(closeForm, 900);
+        setTimeout(closeForm, 1100);
       } catch (error) {
         console.error(error);
-
-        showFormMessage(
-          "Ocorreu um erro inesperado ao salvar.",
+        showMessage(
+          formMessage,
+          error.message || "Ocorreu um erro inesperado ao salvar.",
           "error"
         );
       } finally {
@@ -742,7 +1076,34 @@
       }
     });
 
-    loadCodes();
-  </script>
-</body>
+    async function initialize() {
+      try {
+        const { data, error } = await supabaseClient.auth.getSession();
+
+        if (error) throw error;
+
+        currentUser = data.session?.user || null;
+        updateAuthUI();
+      } catch (error) {
+        console.error("Erro ao verificar sessão:", error);
+        currentUser = null;
+        updateAuthUI();
+        showMessage(
+          authMessage,
+          "Não foi possível verificar a sessão. Tente atualizar a página.",
+          "error"
+        );
+      }
+
+      await loadCodes();
+    }
+
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+      currentUser = session?.user || null;
+      updateAuthUI();
+      renderCodes();
+    });
+
+    initialize();
+  </script></body>
 </html>
