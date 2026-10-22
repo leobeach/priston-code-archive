@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#100e0b">
-
-  <title>Priston Code</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Priston Code</title>  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
     :root {
       --bg: #100e0b;
       --panel: #19150f;
@@ -27,9 +19,7 @@
       --red: #d58b7e;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -48,13 +38,8 @@
       font-family: "Inter", sans-serif;
     }
 
-    button, input, select, textarea {
-      font: inherit;
-    }
-
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
+    button, input, select, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
 
     .page {
       width: min(100% - 32px, 760px);
@@ -125,13 +110,8 @@
       transition: filter .2s, transform .2s;
     }
 
-    .gold-button:hover {
-      filter: brightness(1.08);
-    }
-
-    .gold-button:active {
-      transform: scale(.98);
-    }
+    .gold-button:hover { filter: brightness(1.08); }
+    .gold-button:active { transform: scale(.98); }
 
     .gold-button:focus-visible,
     .icon-button:focus-visible,
@@ -174,9 +154,7 @@
       font-size: 14px;
     }
 
-    #search::placeholder {
-      color: #857966;
-    }
+    #search::placeholder { color: #857966; }
 
     .file-list {
       display: grid;
@@ -232,9 +210,7 @@
       background:
         linear-gradient(145deg, rgba(198,161,90,.15), transparent 70%),
         #17130e;
-      clip-path: polygon(
-        0 0, 100% 0, 100% 82%, 50% 100%, 0 82%
-      );
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
     }
 
     .file-info {
@@ -275,13 +251,8 @@
       line-height: 1.6;
     }
 
-    .status.error {
-      color: var(--red);
-    }
-
-    .status.success {
-      color: var(--green);
-    }
+    .status.error { color: var(--red); }
+    .status.success { color: var(--green); }
 
     .form-panel {
       display: none;
@@ -294,19 +265,11 @@
       animation: reveal .22s ease-out;
     }
 
-    .form-panel.visible {
-      display: block;
-    }
+    .form-panel.visible { display: block; }
 
     @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(-5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .form-heading {
@@ -317,9 +280,7 @@
       font-weight: 600;
     }
 
-    .field {
-      margin-bottom: 13px;
-    }
+    .field { margin-bottom: 13px; }
 
     .field label {
       display: block;
@@ -373,9 +334,7 @@
       font-size: 13px;
     }
 
-    .secondary-button:hover {
-      background: rgba(198,161,90,.08);
-    }
+    .secondary-button:hover { background: rgba(198,161,90,.08); }
 
     .form-message {
       display: none;
@@ -385,17 +344,9 @@
       overflow-wrap: anywhere;
     }
 
-    .form-message.visible {
-      display: block;
-    }
-
-    .form-message.error {
-      color: var(--red);
-    }
-
-    .form-message.success {
-      color: var(--green);
-    }
+    .form-message.visible { display: block; }
+    .form-message.error { color: var(--red); }
+    .form-message.success { color: var(--green); }
 
     .counter {
       margin-top: 12px;
@@ -437,142 +388,128 @@
         flex-basis: 39px;
       }
 
-      .form-panel {
-        padding: 14px;
-      }
-
-      .gold-button {
-        width: 100%;
-      }
+      .form-panel { padding: 14px; }
+      .gold-button { width: 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
       }
     }
-  </style>
-</head>
-
-<body>
+  </style></head><body>
   <main class="page">
-
     <header>
       <div class="brand">PRISTON CODE</div>
       <div class="brand-badge">ARQUIVO</div>
-    </header>
+    </header><div class="toolbar">
+  <button
+    class="gold-button"
+    id="toggleForm"
+    type="button"
+    aria-expanded="false"
+    aria-controls="addForm"
+  >
+    <span class="plus" aria-hidden="true">+</span>
+    <span>Adicionar código</span>
+  </button>
+</div>
 
-    <div class="toolbar">
-      <button
-        class="gold-button"
-        id="toggleForm"
-        type="button"
-        aria-expanded="false"
-        aria-controls="addForm"
+<section class="form-panel" id="addForm" aria-hidden="true">
+  <h2 class="form-heading">Novo registro</h2>
+
+  <form id="codeForm">
+    <div class="field">
+      <label for="codeName">Nome do arquivo</label>
+      <input
+        id="codeName"
+        name="name"
+        type="text"
+        maxlength="120"
+        placeholder="Ex.: Bguardian.smd"
+        required
       >
-        <span class="plus" aria-hidden="true">+</span>
-        <span>Adicionar código</span>
+    </div>
+
+    <div class="field">
+      <label for="codeCategory">Categoria</label>
+      <select id="codeCategory" name="category" required>
+        <option value="Código">Código</option>
+        <option value="Cliente">Cliente</option>
+        <option value="Servidor">Servidor</option>
+        <option value="Monstros">Monstros</option>
+        <option value="Mapas">Mapas</option>
+        <option value="Personagens">Personagens</option>
+        <option value="Efeitos">Efeitos</option>
+        <option value="Interface">Interface</option>
+        <option value="Outros">Outros</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="codeContent">Código ou conteúdo</label>
+      <textarea
+        id="codeContent"
+        name="code"
+        placeholder="Cole o conteúdo aqui..."
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="gold-button" id="saveButton" type="submit">
+        Salvar código
+      </button>
+      <button class="secondary-button" id="cancelForm" type="button">
+        Cancelar
       </button>
     </div>
 
-    <section class="form-panel" id="addForm" aria-hidden="true">
-      <h2 class="form-heading">Novo registro</h2>
-
-      <form id="codeForm">
-        <div class="field">
-          <label for="codeName">Nome do arquivo</label>
-          <input
-            id="codeName"
-            name="name"
-            type="text"
-            maxlength="120"
-            placeholder="Ex.: Bguardian.smd"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="codeCategory">Categoria</label>
-          <select id="codeCategory" name="category" required>
-            <option value="Código">Código</option>
-            <option value="Cliente">Cliente</option>
-            <option value="Servidor">Servidor</option>
-            <option value="Monstros">Monstros</option>
-            <option value="Mapas">Mapas</option>
-            <option value="Personagens">Personagens</option>
-            <option value="Efeitos">Efeitos</option>
-            <option value="Interface">Interface</option>
-            <option value="Outros">Outros</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="codeContent">Código ou conteúdo</label>
-          <textarea
-            id="codeContent"
-            name="code"
-            placeholder="Cole o conteúdo aqui..."
-            required
-          ></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button class="gold-button" id="saveButton" type="submit">
-            Salvar código
-          </button>
-
-          <button
-            class="secondary-button"
-            id="cancelForm"
-            type="button"
-          >
-            Cancelar
-          </button>
-        </div>
-
-        <div
-          class="form-message"
-          id="formMessage"
-          role="status"
-          aria-live="polite"
-        ></div>
-      </form>
-    </section>
-
-    <div class="search-wrap">
-      <span class="search-icon" aria-hidden="true">⌕</span>
-      <input
-        id="search"
-        type="search"
-        placeholder="Buscar arquivo..."
-        aria-label="Buscar arquivo"
-        autocomplete="off"
-      >
-    </div>
-
-    <section
-      class="file-list"
-      id="fileList"
-      aria-label="Arquivos cadastrados"
+    <div
+      class="form-message"
+      id="formMessage"
+      role="status"
       aria-live="polite"
-    >
-      <div class="status">Carregando arquivos...</div>
-    </section>
+    ></div>
+  </form>
+</section>
 
-    <div class="counter" id="counter"></div>
+<div class="search-wrap">
+  <span class="search-icon" aria-hidden="true">⌕</span>
+  <input
+    id="search"
+    type="search"
+    placeholder="Buscar arquivo..."
+    aria-label="Buscar arquivo"
+    autocomplete="off"
+  >
+</div>
 
-    <footer>PRISTON TALE CODE ARCHIVE</footer>
-  </main>
+<section
+  class="file-list"
+  id="fileList"
+  aria-label="Arquivos cadastrados"
+  aria-live="polite"
+>
+  <div class="status">Carregando arquivos...</div>
+</section>
 
-  <script>
-    // Conexão com o projeto Supabase existente.
-    const SUPABASE_URL = "https://usczxmaqzmvlyvchvaqv.supabase.co";
+<div class="counter" id="counter"></div>
+<footer>PRISTON TALE CODE ARCHIVE</footer>
+
+  </main>  <script>
+    "use strict";
+
+    const SUPABASE_URL =
+      "https://usczxmaqzmvlyvchvaqv.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_nPQdBxnzrybkDKQbWlbz2w_Rg9xAVCP";
+
+    // Função publicada no Supabase.
+    const READ_CODE_URL =
+      "https://usczxmaqzmvlyvchvaqv.supabase.co/functions/v1/read-code";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -688,10 +625,11 @@
       button.appendChild(info);
       button.appendChild(arrow);
 
-      // Mantém a página de visualização de código já existente.
+      // NOVO: abre o HTML que já contém o conteúdo do código.
       button.addEventListener("click", () => {
-        window.location.href =
-          "code.html?id=" + encodeURIComponent(item.id);
+        const target = new URL(READ_CODE_URL);
+        target.searchParams.set("id", String(item.id));
+        window.location.href = target.href;
       });
 
       return button;
@@ -700,11 +638,11 @@
     function renderCodes() {
       const query = normalize(searchInput.value.trim());
 
-      const filtered = allCodes.filter(item => {
-        return normalize(item.name).includes(query) ||
-          normalize(item.category).includes(query) ||
-          normalize(item.code).includes(query);
-      });
+      const filtered = allCodes.filter(item =>
+        normalize(item.name).includes(query) ||
+        normalize(item.category).includes(query) ||
+        normalize(item.code).includes(query)
+      );
 
       fileList.replaceChildren();
 
@@ -791,18 +729,11 @@
 
         codeForm.reset();
 
-        showFormMessage(
-          "Código salvo com sucesso.",
-          "success"
-        );
+        showFormMessage("Código salvo com sucesso.", "success");
 
         await loadCodes();
 
-        // Mantém o formulário aberto por um instante para mostrar a confirmação.
-        setTimeout(() => {
-          closeForm();
-        }, 900);
-
+        setTimeout(closeForm, 900);
       } catch (error) {
         console.error(error);
 
@@ -817,6 +748,5 @@
     });
 
     loadCodes();
-  </script>
-</body>
+  </script></body>
 </html>
