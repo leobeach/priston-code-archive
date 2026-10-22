@@ -833,7 +833,9 @@
           info.append(name, meta);
           button.append(tag, info);
 
-          button.addEventListener("click", () => selectCode(item.id));
+          button.addEventListener("click", () => {
+  window.location.href = "code.html?id=" + encodeURIComponent(item.id);
+});
           codeList.appendChild(button);
         });
       }
