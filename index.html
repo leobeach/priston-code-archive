@@ -1,11 +1,18 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#100e0b">
-  <title>Priston Code</title>  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Priston Code</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
     :root {
       --bg: #100e0b;
       --panel: #19150f;
@@ -27,13 +34,7 @@
       color: var(--text);
       background:
         radial-gradient(ellipse at 50% -15%, rgba(135, 93, 36, .17), transparent 55%),
-        repeating-linear-gradient(
-          135deg,
-          rgba(255,255,255,.009) 0px,
-          rgba(255,255,255,.009) 1px,
-          transparent 1px,
-          transparent 5px
-        ),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.009) 0px, rgba(255,255,255,.009) 1px, transparent 1px, transparent 5px),
         var(--bg);
       font-family: "Inter", sans-serif;
     }
@@ -52,7 +53,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 0 0 24px;
+      padding-bottom: 24px;
       margin-bottom: 25px;
       border-bottom: 1px solid var(--border);
       position: relative;
@@ -66,7 +67,6 @@
       width: 110px;
       height: 1px;
       background: var(--gold-light);
-      box-shadow: 0 0 12px rgba(234, 211, 154, .25);
     }
 
     .brand {
@@ -75,7 +75,6 @@
       font-weight: 700;
       letter-spacing: 2px;
       color: var(--gold-light);
-      text-shadow: 0 2px 15px rgba(198, 161, 90, .12);
     }
 
     .brand-badge {
@@ -107,14 +106,16 @@
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
-      transition: filter .2s, transform .2s;
     }
 
-    .gold-button:hover { filter: brightness(1.08); }
+    .gold-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
     .gold-button:active { transform: scale(.98); }
 
-    .gold-button:focus-visible,
-    .icon-button:focus-visible,
+    button:focus-visible,
     input:focus-visible,
     select:focus-visible,
     textarea:focus-visible {
@@ -169,15 +170,11 @@
       padding: 13px;
       text-align: left;
       color: var(--text);
-      background:
-        linear-gradient(110deg, rgba(255,255,255,.018), transparent 55%),
-        var(--panel);
+      background: linear-gradient(110deg, rgba(255,255,255,.018), transparent 55%), var(--panel);
       border: 1px solid var(--border);
-      border-radius: 0;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: border-color .2s, background .2s;
     }
 
     .file-row:hover {
@@ -207,9 +204,7 @@
       font-size: 20px;
       font-weight: 600;
       border: 1px solid rgba(198, 161, 90, .46);
-      background:
-        linear-gradient(145deg, rgba(198,161,90,.15), transparent 70%),
-        #17130e;
+      background: #17130e;
       clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
     }
 
@@ -259,18 +254,10 @@
       margin-bottom: 20px;
       padding: 18px;
       border: 1px solid var(--border);
-      background:
-        linear-gradient(145deg, rgba(198,161,90,.06), transparent 65%),
-        var(--panel);
-      animation: reveal .22s ease-out;
+      background: linear-gradient(145deg, rgba(198,161,90,.06), transparent 65%), var(--panel);
     }
 
     .form-panel.visible { display: block; }
-
-    @keyframes reveal {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
 
     .form-heading {
       margin: 0 0 17px;
@@ -334,8 +321,6 @@
       font-size: 13px;
     }
 
-    .secondary-button:hover { background: rgba(198,161,90,.08); }
-
     .form-message {
       display: none;
       margin-top: 13px;
@@ -398,107 +383,114 @@
         transition-duration: .01ms !important;
       }
     }
-  </style></head><body>
+  </style>
+</head>
+
+<body>
   <main class="page">
     <header>
       <div class="brand">PRISTON CODE</div>
       <div class="brand-badge">ARQUIVO</div>
-    </header><div class="toolbar">
-  <button
-    class="gold-button"
-    id="toggleForm"
-    type="button"
-    aria-expanded="false"
-    aria-controls="addForm"
-  >
-    <span class="plus" aria-hidden="true">+</span>
-    <span>Adicionar código</span>
-  </button>
-</div>
+    </header>
 
-<section class="form-panel" id="addForm" aria-hidden="true">
-  <h2 class="form-heading">Novo registro</h2>
+    <div class="toolbar">
+      <button
+        class="gold-button"
+        id="toggleForm"
+        type="button"
+        aria-expanded="false"
+        aria-controls="addForm"
+      >
+        <span class="plus" aria-hidden="true">+</span>
+        <span>Adicionar código</span>
+      </button>
+    </div>
 
-  <form id="codeForm">
-    <div class="field">
-      <label for="codeName">Nome do arquivo</label>
+    <section class="form-panel" id="addForm" aria-hidden="true">
+      <h2 class="form-heading">Novo registro</h2>
+
+      <form id="codeForm">
+        <div class="field">
+          <label for="codeName">Nome do arquivo</label>
+          <input
+            id="codeName"
+            name="name"
+            type="text"
+            maxlength="120"
+            placeholder="Ex.: Bguardian.smd"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="codeCategory">Categoria</label>
+          <select id="codeCategory" name="category" required>
+            <option value="Código">Código</option>
+            <option value="Cliente">Cliente</option>
+            <option value="Servidor">Servidor</option>
+            <option value="Monstros">Monstros</option>
+            <option value="Mapas">Mapas</option>
+            <option value="Personagens">Personagens</option>
+            <option value="Efeitos">Efeitos</option>
+            <option value="Interface">Interface</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="codeContent">Código ou conteúdo</label>
+          <textarea
+            id="codeContent"
+            name="code"
+            placeholder="Cole o conteúdo aqui..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="gold-button" id="saveButton" type="submit">
+            Salvar código
+          </button>
+
+          <button class="secondary-button" id="cancelForm" type="button">
+            Cancelar
+          </button>
+        </div>
+
+        <div
+          class="form-message"
+          id="formMessage"
+          role="status"
+          aria-live="polite"
+        ></div>
+      </form>
+    </section>
+
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">⌕</span>
       <input
-        id="codeName"
-        name="name"
-        type="text"
-        maxlength="120"
-        placeholder="Ex.: Bguardian.smd"
-        required
+        id="search"
+        type="search"
+        placeholder="Buscar arquivo..."
+        aria-label="Buscar arquivo"
+        autocomplete="off"
       >
     </div>
 
-    <div class="field">
-      <label for="codeCategory">Categoria</label>
-      <select id="codeCategory" name="category" required>
-        <option value="Código">Código</option>
-        <option value="Cliente">Cliente</option>
-        <option value="Servidor">Servidor</option>
-        <option value="Monstros">Monstros</option>
-        <option value="Mapas">Mapas</option>
-        <option value="Personagens">Personagens</option>
-        <option value="Efeitos">Efeitos</option>
-        <option value="Interface">Interface</option>
-        <option value="Outros">Outros</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="codeContent">Código ou conteúdo</label>
-      <textarea
-        id="codeContent"
-        name="code"
-        placeholder="Cole o conteúdo aqui..."
-        required
-      ></textarea>
-    </div>
-
-    <div class="form-actions">
-      <button class="gold-button" id="saveButton" type="submit">
-        Salvar código
-      </button>
-      <button class="secondary-button" id="cancelForm" type="button">
-        Cancelar
-      </button>
-    </div>
-
-    <div
-      class="form-message"
-      id="formMessage"
-      role="status"
+    <section
+      class="file-list"
+      id="fileList"
+      aria-label="Arquivos cadastrados"
       aria-live="polite"
-    ></div>
-  </form>
-</section>
+    >
+      <div class="status">Carregando arquivos...</div>
+    </section>
 
-<div class="search-wrap">
-  <span class="search-icon" aria-hidden="true">⌕</span>
-  <input
-    id="search"
-    type="search"
-    placeholder="Buscar arquivo..."
-    aria-label="Buscar arquivo"
-    autocomplete="off"
-  >
-</div>
+    <div class="counter" id="counter"></div>
+    <footer>PRISTON TALE CODE ARCHIVE</footer>
+  </main>
 
-<section
-  class="file-list"
-  id="fileList"
-  aria-label="Arquivos cadastrados"
-  aria-live="polite"
->
-  <div class="status">Carregando arquivos...</div>
-</section>
-
-<div class="counter" id="counter"></div>
-<footer>PRISTON TALE CODE ARCHIVE</footer>
-
-  </main>  <script>
+  <script>
     "use strict";
 
     const SUPABASE_URL =
@@ -506,10 +498,6 @@
 
     const SUPABASE_KEY =
       "sb_publishable_nPQdBxnzrybkDKQbWlbz2w_Rg9xAVCP";
-
-    // Função publicada no Supabase.
-    const READ_CODE_URL =
-      "https://usczxmaqzmvlyvchvaqv.supabase.co/functions/v1/read-code";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -519,11 +507,9 @@
     const fileList = document.getElementById("fileList");
     const searchInput = document.getElementById("search");
     const counter = document.getElementById("counter");
-
     const formPanel = document.getElementById("addForm");
     const toggleFormButton = document.getElementById("toggleForm");
     const cancelFormButton = document.getElementById("cancelForm");
-
     const codeForm = document.getElementById("codeForm");
     const saveButton = document.getElementById("saveButton");
     const formMessage = document.getElementById("formMessage");
@@ -554,8 +540,8 @@
     function openForm() {
       formPanel.classList.add("visible");
       formPanel.setAttribute("aria-hidden", "false");
-
       toggleFormButton.setAttribute("aria-expanded", "true");
+
       toggleFormButton.querySelector("span:last-child").textContent =
         "Fechar formulário";
 
@@ -565,8 +551,8 @@
     function closeForm() {
       formPanel.classList.remove("visible");
       formPanel.setAttribute("aria-hidden", "true");
-
       toggleFormButton.setAttribute("aria-expanded", "false");
+
       toggleFormButton.querySelector("span:last-child").textContent =
         "Adicionar código";
 
@@ -625,9 +611,11 @@
       button.appendChild(info);
       button.appendChild(arrow);
 
-      // NOVO: abre o HTML que já contém o conteúdo do código.
+      // CORRIGIDO:
+      // Abre o visualizador hospedado no GitHub Pages,
+      // e não o HTML retornado diretamente pelo Supabase.
       button.addEventListener("click", () => {
-        const target = new URL(READ_CODE_URL);
+        const target = new URL("code.html", window.location.href);
         target.searchParams.set("id", String(item.id));
         window.location.href = target.href;
       });
@@ -672,23 +660,31 @@
     async function loadCodes() {
       showStatus("Carregando arquivos...");
 
-      const { data, error } = await supabaseClient
-        .from("codes_priston")
-        .select("id, name, category, code, created_at")
-        .order("created_at", { ascending: false });
+      try {
+        const { data, error } = await supabaseClient
+          .from("codes_priston")
+          .select("id, name, category, code, created_at")
+          .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("Erro ao carregar códigos:", error);
+        if (error) {
+          console.error("Erro ao carregar códigos:", error);
 
+          showStatus(
+            "Não foi possível carregar os arquivos. Verifique a conexão com o Supabase.",
+            "error"
+          );
+          return;
+        }
+
+        allCodes = data || [];
+        renderCodes();
+      } catch (error) {
+        console.error(error);
         showStatus(
-          "Não foi possível carregar os arquivos. Verifique a conexão com o Supabase.",
+          "Erro de conexão ao carregar os arquivos.",
           "error"
         );
-        return;
       }
-
-      allCodes = data || [];
-      renderCodes();
     }
 
     searchInput.addEventListener("input", renderCodes);
@@ -728,7 +724,6 @@
         }
 
         codeForm.reset();
-
         showFormMessage("Código salvo com sucesso.", "success");
 
         await loadCodes();
@@ -748,5 +743,6 @@
     });
 
     loadCodes();
-  </script></body>
+  </script>
+</body>
 </html>
